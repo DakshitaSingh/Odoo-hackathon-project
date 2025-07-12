@@ -5,9 +5,8 @@ import Item from '../models/item.js';
 import User from '../models/user.js';
 
 const router = express.Router();
+import upload from '../utils/cloudinary';
 
-
-// Middleware to verify JWT
 const auth = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.sendStatus(401);
@@ -18,9 +17,14 @@ const auth = (req, res, next) => {
   });
 };
 
-// Upload a new item
-router.post('/', auth, async (req, res) => {
-  const newItem = new Item({ ...req.body, uploader: req.user.id });
+// Upload a new item with images
+router.post('/', auth, upload.array('images'), async (req, res) => {
+  const imageUrls = req.files.map(file => file.path);
+  const newItem = new Item({
+    ...req.body,
+    images: imageUrls,
+    uploader: req.user.id
+  });
   await newItem.save();
   res.status(201).json(newItem);
 });
