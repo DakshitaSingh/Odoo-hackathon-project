@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../config';
 
 const Signup = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -11,7 +12,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:5000/api/auth/signup', {
+    const res = await fetch(`${BASE_URL}/api/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
