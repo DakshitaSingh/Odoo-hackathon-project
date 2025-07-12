@@ -8,7 +8,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js'; // Make sure this exists
-
+import userRoutes from './routes/user.js'
 // --- Setup ---
 dotenv.config();
 const app = express();
@@ -81,6 +81,7 @@ app.get('/', (req, res) => {
 
 // --- Auth routes ---
 app.use('/api/auth', authRoutes);
+app.use('/api', userRoutes);
 
 // --- Item/Profile/Swap routes ---
 app.get('/api/user-profile', async (req, res) => {

@@ -5,7 +5,7 @@ import ListingItem from '../components/ListingItem';
 import SwapItem from '../components/SwapItem';
 import UploadItems from '../components/UploadItems';
 import axios from 'axios';
-
+import { BASE_URL } from '../config';
 const DashboardPage = () => {
     const [userProfileData, setUserProfileData] = useState(null);
     const [myListings, setMyListings] = useState([]);
@@ -24,7 +24,13 @@ const DashboardPage = () => {
         setLoadingProfile(true);
         setErrorProfile(null);
         try {
-            const response = await axios.get('/api/user-profile');
+            // const response = await axios.get(`${BASE_URL}/api/profile`);
+            const response  = await axios.get(`${BASE_URL}/api/profile`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+            })
+
             const profileData = response.data.data || response.data;
             setUserProfileData(profileData);
         } catch (error) {
