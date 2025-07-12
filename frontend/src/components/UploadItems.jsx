@@ -1,6 +1,9 @@
 // frontend/src/components/UploadItems.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import {BASE_URL} from "../config"
+import { toast } from 'react-toastify';
+
 
 const UploadItems = ({ onUploadSuccess, onClose }) => {
     const [itemName, setItemName] = useState('');
@@ -58,12 +61,16 @@ const UploadItems = ({ onUploadSuccess, onClose }) => {
         formData.append('itemImage', itemImage);
 
         try {
-            const response = await axios.post('/api/upload-item', formData, {
+            const response = await axios.post(`${BASE_URL}/api/upload-item`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+
                 },
             });
             console.log('Item uploaded:', response.data);
+            toast.success('Item listed successfully! ✅');
+
             setSuccessMessage('Item listed successfully! Your points balance has been updated.'); // More descriptive message
             if (onUploadSuccess) {
                 onUploadSuccess();
@@ -85,6 +92,8 @@ const UploadItems = ({ onUploadSuccess, onClose }) => {
             }, 1800); // Slightly longer delay for message to be read
         } catch (err) {
             console.error('Error uploading item:', err.response ? err.response.data : err.message);
+            toast.error(err.response?.data?.message || 'Failed to list item. Please try again. ❌');
+
             setError(err.response?.data?.message || 'Failed to list item. Please try again.');
         } finally {
             setLoading(false);

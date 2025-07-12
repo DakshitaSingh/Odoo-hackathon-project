@@ -18,15 +18,34 @@ const auth = (req, res, next) => {
 };
 
 // Upload a new item with images
-router.post('/', auth, upload.array('images'), async (req, res) => {
-  const imageUrls = req.files.map(file => file.path);
-  const newItem = new Item({
-    ...req.body,
-    images: imageUrls,
-    uploader: req.user.id
-  });
-  await newItem.save();
-  res.status(201).json(newItem);
+// router.post('/', auth, upload.array('images'), async (req, res) => {
+//   const imageUrls = req.files.map(file => file.path);
+//   const newItem = new Item({
+//     ...req.body,
+//     images: imageUrls,
+//     uploader: req.user.id
+//   });
+//   await newItem.save();
+//   res.status(201).json(newItem);
+// });
+
+router.post('/upload-item', auth, upload.single('itemImage'), async (req, res) => {
+  try {
+    const imageUrl = req.file?.path;
+    if (!imageUrl) return res.status(400).json({ message: 'Image upload failed' });
+
+    const newItem = new Item({
+      ...req.body,
+      images: [imageUrl],
+      uploader: req.user.id,
+    });
+
+    await newItem.save();
+    res.status(201).json(newItem);
+  } catch (err) {
+    console.error('Upload error:', err);
+    res.status(500).json({ message: 'Server error while uploading item' });
+  }
 });
 
 // Get all items

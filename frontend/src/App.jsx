@@ -5,6 +5,8 @@ import DashboardPage from './pages/DashboardPage';
 import Login from './pages/LoginPage';
 import Signup from './pages/RegisterPage';
 import { Admin } from './pages/Admin';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -15,8 +17,10 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin" element={<Admin />} />
+        
       </Routes>
       <Footer />
+      <ToastContainer position="top-center" autoClose={3000} />
     </Router>
   );
 }
