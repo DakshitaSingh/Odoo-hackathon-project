@@ -11,8 +11,8 @@ const LandingPage = () => {
         <nav className="flex space-x-6 text-gray-700">
           <a href="#" className="hover:text-violet-600">Home</a>
           <a href="#" className="hover:text-violet-600">Browse</a>
-          <a href="#" className="hover:text-violet-600">Login</a>
-          <a href="#" className="hover:text-violet-600">Sign Up</a>
+          <a href="/login" className="hover:text-violet-600">Login</a>
+          <a href="/register" className="hover:text-violet-600">Sign Up</a>
           <a href="#" className="px-4 py-2 rounded-full bg-gradient-to-r from-violet-600 to-blue-500 text-white font-semibold hover:opacity-90">Get Started</a>
         </nav>
       </header>
