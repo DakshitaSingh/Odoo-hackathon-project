@@ -19,7 +19,12 @@ const Login = () => {
     const data = await res.json();
     if (data.token) {
       localStorage.setItem('token', data.token);
-      navigate('/dashboard');
+      localStorage.setItem('role', data.user.role);
+      if (data.user.role === 'admin') {
+        navigate('/admin'); // 👈 Redirect to admin
+      } else {
+        navigate('/dashboard'); // 👈 Redirect to user dashboard
+      }
     } else {
       alert(data.message);
     }
